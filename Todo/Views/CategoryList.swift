@@ -8,6 +8,7 @@
 
 import SwiftUI
 import CoreData
+import ChameleonFramework
 
 struct CategoryList: View {
     @Environment(\.managedObjectContext) var context
@@ -20,6 +21,8 @@ struct CategoryList: View {
     init(){
         let request = Category.fetchRequest(predicate: NSPredicate(format: "TRUEPREDICATE"))
         _categories = FetchRequest(fetchRequest: request)
+        UITableView.appearance().tableFooterView = UIView()
+        UITableView.appearance().separatorStyle = .none
     }
     
     var body: some View {
@@ -30,9 +33,10 @@ struct CategoryList: View {
                     ForEach(categories, id: \.id) { item in
                         Group{
                             if self.filter == "" || item.category.contains(self.filter){
-                                NavigationLink(destination: TodoListView(title: item.category)) {
+                                NavigationLink(destination: TodoListView(category: item)) {
                                     Text(item.category)
                                 }
+                                .listRowBackground(Color(UIColor(hexString: item.color)!))
                             }
                         }
                     }

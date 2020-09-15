@@ -7,9 +7,10 @@
 //
 
 import SwiftUI
+import ChameleonFramework
 
 struct TodoListView: View {
-    var title: String
+    var category: Category
     @State var filter: String = ""
     
     @Environment(\.managedObjectContext) var context
@@ -18,9 +19,9 @@ struct TodoListView: View {
     @State var showModal: Bool = false
     @State var newItem: String = ""
     
-    init(title: String){
-        self.title = title
-        let request = TodoItem.fetchRequest(predicate: NSPredicate(format: "category_ = %@", self.title))
+    init(category: Category){
+        self.category = category
+        let request = TodoItem.fetchRequest(predicate: NSPredicate(format: "category_ = %@", self.category.category))
         _todos = FetchRequest(fetchRequest: request)
     }
     
@@ -37,12 +38,14 @@ struct TodoListView: View {
                                     }) {
                                         HStack{
                                             Text(item.task)
+                                                .foregroundColor(Color(ContrastColorOf(UIColor(hexString: self.category.color)!.darken(byPercentage: CGFloat(self.todos.firstIndex(of: item)!) / CGFloat(self.todos.count))!, returnFlat: true)))
                                             Spacer()
                                             if item.completed{
-                                                Image(systemName: "checkmark")
+                                                Image(systemName: "checkmark").foregroundColor(Color(ContrastColorOf(UIColor(hexString: self.category.color)!.darken(byPercentage: CGFloat(self.todos.firstIndex(of: item)!) / CGFloat(self.todos.count))!, returnFlat: true)))
                                             }
                                         }
                                     }
+                                .listRowBackground(Color(UIColor(hexString: self.category.color)!.darken(byPercentage: CGFloat(self.todos.firstIndex(of: item)!) / CGFloat(self.todos.count))!))
                                 }
                             }
                         }.onDelete { index in
@@ -50,7 +53,7 @@ struct TodoListView: View {
                             TodoItem.deleteTodo(todo: item, context: self.context)
                         }
                 }
-                .navigationBarTitle(self.title)
+                .navigationBarTitle(self.category.category)
                 .navigationBarItems(trailing: Button(action: {
                     self.showModal = true
                 }, label: {
@@ -60,14 +63,14 @@ struct TodoListView: View {
             }
         }
         .sheet(isPresented: $showModal) {
-            AddModal(newItem: self.$newItem, showModal: self.$showModal, title: self.title).environment(\.managedObjectContext, self.context)
+            AddModal(newItem: self.$newItem, showModal: self.$showModal, title: self.category.category).environment(\.managedObjectContext, self.context)
         }
     }
 }
 
 
-struct TodoListView_Previews: PreviewProvider {
-    static var previews: some View {
-        TodoListView(title: "")
-    }
-}
+//struct TodoListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TodoListView(title: "")
+//    }
+//}

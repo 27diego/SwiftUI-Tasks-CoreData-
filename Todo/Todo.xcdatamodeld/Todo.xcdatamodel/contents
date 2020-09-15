@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Category" representedClassName="Category" syncable="YES" codeGenerationType="class">
         <attribute name="category_" optional="YES" attributeType="String"/>
+        <attribute name="color_" optional="YES" attributeType="String"/>
         <attribute name="id_" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
     </entity>
     <entity name="TodoItem" representedClassName="TodoItem" syncable="YES" codeGenerationType="class">
@@ -11,7 +12,7 @@
         <attribute name="task_" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Category" positionX="-45" positionY="27" width="128" height="73"/>
+        <element name="Category" positionX="-45" positionY="27" width="128" height="88"/>
         <element name="TodoItem" positionX="-45" positionY="0" width="128" height="103"/>
     </elements>
 </model>

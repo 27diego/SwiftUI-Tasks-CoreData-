@@ -8,6 +8,8 @@
 
 import Foundation
 import CoreData
+import ChameleonFramework
+import SwiftUI
 
 extension Category {
     
@@ -22,6 +24,7 @@ extension Category {
         let newCategory = Category(context: context)
         newCategory.category = category
         newCategory.id = UUID()
+        newCategory.color = UIColor.randomFlat().hexValue()
         
         newCategory.objectWillChange.send()
         
@@ -54,5 +57,10 @@ extension Category {
     var id: UUID {
         get { id_ ?? UUID() }
         set { id_ = newValue }
+    }
+    
+    var color: String {
+        get { color_ ?? "unknown"}
+        set { color_ = newValue }
     }
 }
